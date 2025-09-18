@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <!-- Informazioni di base della pagina -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulatore di Lettura con Dislessia</title>
+    <!-- Collegamento al file CSS per lo stile -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Contenitore principale di tutta la pagina -->
+    <div class="container">
+        <!-- Intestazione della pagina -->
+        <header class="header">
+            <h1>Simulatore di Lettura con Dislessia</h1>
+            <p class="subtitle">Esperienza interattiva per comprendere le difficoltà di lettura</p>
+        </header>
+
+        <!-- Contenuto principale della pagina -->
+        <main>
+            <!-- Controlli per attivare/disattivare gli effetti -->
+            <div class="controls">
+            <div class="control-group">
+                <input type="checkbox" id="rule1" class="rule-checkbox" checked>
+                <label for="rule1">Regola 1: Sostituisci 'a' con 'e'</label>
+            </div>
+            
+            <div class="control-group">
+                <input type="checkbox" id="rule2" class="rule-checkbox" checked>
+                <label for="rule2">Regola 2: Sfocatura graduale</label>
+            </div>
+            
+            <div class="control-group">
+                <input type="checkbox" id="rule3" class="rule-checkbox" checked>
+                <label for="rule3">Regola 3: Sostituzione parole simili</label>
+            </div>
+                <!-- Pulsante per ripristinare il testo originale -->
+                <button id="resetBtn" class="btn reset-btn">Reset Testo</button>
+            </div>
+
+            <!-- Sezione per inserire e visualizzare il testo -->
+            <div class="text-input-section">
+                <h3>Testo Originale</h3>
+                <!-- Area di testo dove l'utente può scrivere -->
+                <textarea id="originalText" class="text-input" placeholder="Inserisci qui il testo da leggere...">La lettura è una delle competenze fondamentali per l'apprendimento e la comunicazione. Tuttavia, per le persone con dislessia, questo processo può presentare sfide significative. La dislessia è un disturbo specifico dell'apprendimento che influisce sulla capacità di leggere con precisione e fluidità. Le persone con dislessia possono avere difficoltà nel riconoscere le parole, nella comprensione del testo e nella velocità di lettura. Questo simulatore aiuta a comprendere meglio queste difficoltà attraverso un'esperienza interattiva che riproduce alcuni degli effetti che le persone con dislessia possono sperimentare durante la lettura.</textarea>
+            </div>
+
+            <!-- Sezione dove viene mostrato il testo con gli effetti -->
+            <div class="output-section">
+                <h3>Testo con Effetti Dislessia</h3>
+                <!-- Area dove appare il testo modificato -->
+                <div id="processedText" class="processed-text">
+                    <!-- Il testo processato apparirà qui tramite JavaScript -->
+                </div>
+            </div>
+        </main>
+
+        <!-- Piè di pagina con informazioni -->
+        <footer>
+            <p>Questo simulatore è solo a scopo educativo e non rappresenta l'esperienza completa della dislessia.</p>
+        </footer>
+    </div>
+
+    <!-- Collegamento al file JavaScript per la funzionalità -->
+    <script src="script.js"></script>
+</body>
+</html>

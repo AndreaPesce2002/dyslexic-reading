@@ -197,11 +197,60 @@ class DyslexiaSimulator {
      */
     toggleRule1(enabled) {
         if (enabled) {
+            // Inizializza l'array per i timeout delle lettere se non esiste
+            if (!this.letterTimeouts) {
+                this.letterTimeouts = [];
+            }
+            
             // Applica immediatamente la sostituzione
             this.applyRule1();
+            
+            // Avvia la programmazione continua con frequenza variabile
+            this.scheduleNextRule1();
         } else {
+            // Cancella il timeout principale
+            if (this.intervals && this.intervals.rule1) {
+                clearTimeout(this.intervals.rule1);
+                this.intervals.rule1 = null;
+            }
+            
+            // Cancella tutti i timeout delle lettere individuali
+            if (this.letterTimeouts) {
+                this.letterTimeouts.forEach(timeout => clearTimeout(timeout));
+                this.letterTimeouts = [];
+            }
+            
             // Ripristina il testo originale
             this.resetRule1();
+        }
+    }
+
+    /**
+     * Programma il prossimo intervallo per la Regola 1 con frequenza variabile
+     */
+    scheduleNextRule1() {
+        // Frequenza variabile tra 800ms e 3500ms
+        const nextInterval = Math.random() * 2700 + 800;
+        
+        this.intervals.rule1 = setTimeout(() => {
+            // Verifica se la regola è ancora attiva
+            if (document.getElementById('rule1').checked) {
+                this.applyRule1();
+                this.scheduleNextRule1(); // Programma il prossimo intervallo
+            }
+        }, nextInterval);
+    }
+
+    /**
+     * Ripristina una singola lettera al suo carattere originale
+     */
+    restoreOriginalLetter(wordElement, letterIndex, originalChar) {
+        const currentHTML = wordElement.innerHTML;
+        const letters = currentHTML.split('');
+        
+        if (letterIndex < letters.length) {
+            letters[letterIndex] = originalChar;
+            wordElement.innerHTML = letters.join('');
         }
     }
     
@@ -455,7 +504,7 @@ class DyslexiaSimulator {
      */
     applyRule1() {
         const words = document.querySelectorAll('.word');
-        words.forEach(word => {
+        words.forEach((word, wordIndex) => {
             const original = word.getAttribute('data-original');
             
             // Applica solo al 25% delle parole che contengono 'a' o 'e'
@@ -472,10 +521,18 @@ class DyslexiaSimulator {
                 // Applica l'inversione
                 word.innerHTML = modifiedText;
                 
-                // Ripristina la parola originale dopo 2-4 secondi
-                setTimeout(() => {
-                    word.innerHTML = word.dataset.original;
-                }, Math.random() * 2000 + 2000);
+                // Programma il ripristino con durata variabile (500ms-3000ms)
+                const restoreDuration = Math.random() * 2500 + 500;
+                const timeout = setTimeout(() => {
+                    this.restoreOriginalLetter(word, -1, original); // -1 indica ripristino completo
+                    word.innerHTML = original;
+                }, restoreDuration);
+                
+                // Memorizza il timeout per poterlo cancellare se necessario
+                if (!this.letterTimeouts) {
+                    this.letterTimeouts = [];
+                }
+                this.letterTimeouts.push(timeout);
             }
         });
     }
